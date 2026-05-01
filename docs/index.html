@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+<meta name="description" content="VOLT: Vision and Language Trajectory Segmentation for Faster-than-Demonstration Policies">
+<meta name="keywords" content="Imitation Learning">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-site-verification" content="zvdBx0kk5EUu49MvJ3FcyfKiN3VB1PTG04WpIRsbOPI" />
+<title>VOLT: Vision and Language Trajectory Segmentation for Faster-than-Demonstration Policies</title>
+
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <style>
+    /* --- PROMPT --- */
+    body {
+        font-family: sans-serif;
+        padding: 20px;
+    }
+    pre {
+        background-color: #f4f4f4;
+        border: 1px solid #ddd;
+        border-left: 3px solid #f39c12;
+        padding: 15px;
+        overflow: auto;
+        border-radius: 4px;
+    }
+    code {
+        font-family: "Courier New", Courier, monospace;
+        color: #333;
+    }
+  </style>
+
+  <style>
+    /* --- VIDEO --- */
+    .video-item{
+      flex:0 0 100%;            
+      scroll-snap-align:center;
+      display: flex;
+      justify-content: center;
+      align-items: center; 
+    }
+
+    .video-item video{
+      width:80%;
+      height:auto;
+      display:block;
+    }
+
+    /* --- Video grid (2x2) --- */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+
+    .video-grid video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-radius: 6px;
+      background: black;
+    }
+
+    /* hide/show tab content */
+    .video-grid-container {
+      display: none;
+    }
+
+    .video-grid-container.is-active {
+      display: block;
+    }
+
+    .video-wrapper {
+      position: relative;      /* allows absolute positioning of title */
+      display: inline-block;
+    }
+
+    .video-wrapper video {
+      width: 100%;
+      display: block;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+
+    .video-wrapper .video-title {
+      position: absolute;
+      bottom: 8px;                /* distance from top */
+      left: 25%;              /* distance from right edge*/
+      width: 200px;
+      transform: translateX(-50%);
+      text-align: left;
+      font-weight: bold;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.7); /* optional for contrast */
+      pointer-events: none;     /* clicks go through video */
+      white-space: nowrap;      /* prevent line wrap */
+    }
+  </style>
+</head>
+
+<body>
+
+  <link rel="icon" href="./favicon.ico?">
+  
+  <meta property="og:site_name" content="VOLT: Vision and Language Trajectory Segmentation for Faster-than-Demonstration Policies" />
+  <meta property="og:type" content="video.other" />
+  <meta property="og:title" content="VOLT: Vision and Language Trajectory Segmentation for Faster-than-Demonstration Policies" />
+  <!-- ADD Website Host link -->
+  <meta property="og:url" content="https://ADD URL" />
+  <meta property="og:image" content="./static/resources/problem.png" />
+  <meta property="og:image:secure" content="./static/resources/problem.png" />
+  <!-- ADD YouTube Link -->
+  <meta property="og:video" content="https://youtu.be/ADDVid" />
+  <meta property="og:video:secure" content="https://youtu.be/ADDVid" />
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">
+            <span class="no-wrap" style="white-space: nowrap;">VOLT: Vision and Language Trajectory Segmentation</span> 
+            for Faster-than-Demonstration Policies
+          </h1>
+          
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"></sup>Anonymous</span>
+              <style>
+              .author-block a {color: rgb(255, 153, 0) !important; text-decoration: none;font-weight: 500;}
+              .author-block a:hover {color: rgb(255, 120, 0) !important; text-decoration: underline;}
+              .author-block {
+                white-space: nowrap; /* prevent breaking mid-name */
+              }
+
+              .author-block a,
+              .author-block span {
+                white-space: nowrap; /* each name stays together */
+              }
+
+              .author-block br {
+                display: none; /* ensure <br> doesn’t interfere */
+              }
+
+              .author-block .comma::after {
+                content: ", ";
+                white-space: normal; /* allow break after comma */
+              }
+              </style>
+            <br>
+            <span class="brmod">Under Review</span>
+          </div>
+          
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code (Coming Soon)</span>
+                  </a>
+              </span>
+              <span class="link-block">
+                <!-- arxiv Link. -->
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <div class="content">
+            <h2 class="subtitle has-text-centered">
+              <strong><i>Reasoning over videos of the entire demonstration provides the context cues needed to decide when to accelerate.</i></strong>
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <!-- Abstract. -->
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              The time it takes for humans to demonstrate a task is often greater than the amount of time a robot needs to complete that same task.
+              Consider teaching a robot arm to pick up a cup: while the robot is capable of rapidly moving to the cup's location, a human may teach more slowly as they kinesthetically guide the arm or navigate a teleoperation interface.
+              Instead of matching the speed of the human's demonstration, industry and other applications seek robots that imitate the task as quickly as possible.
+              Accordingly, in this work we explore a variety of hypothesis for learning <i>faster-than-demonstration</i> policies.
+              Through our experiments, we find that the most effective approach is for the robot to <i>downsample</i> the recorded demonstrations, and then train its policy based on this accelerated dataset.
+              However, blindly downsampling the entire trajectory is problematic.
+              There are parts of the motion that the robot can speed-up (e.g., moving to the cup), but there are also segments that require slow and precise motion (e.g., grasping that cup).
+              To determine when and when not to accelerate we introduce a vision and language trajectory segmentation algorithm, VOLT.
+              VOLT reasons over video demonstrations to mark the frames where precise motion is required: we then downsample the remaining portions of the trajectory, and provide the reformatted data to standard imitation learning methods (e.g., diffusion policies).
+              When compared to state-of-the-art alternatives, we find that VOLT speeds-up the learned task without sacrificing performance.
+              The key to this improvement is segmentation accuracy --- the baselines often mislabel when the robot can or cannot downsample, leading to overly conservative or incorrect policies.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    <!-- Paper video. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-max-desktop">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <!-- Get embed YouTube video link. -->
+          <iframe src=""
+          frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-2 has-text-centered">Real-World Experiments</h2>
+    <div class="content has-text-justified">
+      <p>
+        We compare <i>VOLT</i> against state-of-the-art imitation learning methods designed to accelerate policy execution. We evaluate each approach in a real-world setting using
+        a Franka Emika robot arm in a tabletop setup across 4 manipulation tasks. We focus on comparing both the performance and speedup magnitude over a <i>Normal Speed</i> policy
+        trained directly on the human's demonstrations. Across each task we randomize the position of the manipulated objects, and maintain the target object location fixed.
+      </p>
+  </div>
+    <div class="columns is-centered has-text-centered">
+      <img src="./static/assets/images/tasks.png" style="width: 95%;"></img>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop video-section">
+    <h2 class="title is-2 has-text-centered">Pick and Place</h2>
+    <div class="tabs is-toggle is-small video-tabs">
+      <ul>
+        <li class="is-active" data-target="pnp-grid-0"><a>Rollout 1</a></li>
+        <li data-target="pnp-grid-1"><a>Rollout 2</a></li>
+        <li data-target="pnp-grid-2"><a>Rollout 3</a></li>
+      </ul>
+    </div>
+
+    <div class="video-grid-container is-active" id="pnp-grid-0">
+      <div class="video-grid">
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/Normal_Speed/pnp_0.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 255, 255); font-family: Palatino Linotype; font-size: 1.2rem;">
+            Normal Speed
+          </div>
+        </div>
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/SAIL/pnp_0.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(160, 212, 164); font-family: Palatino Linotype; font-size: 1.2rem;">
+            SAIL
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/DemoSpeedup/pnp_0.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(141, 95, 211); font-family: Palatino Linotype; font-size: 1.2rem;">
+            DemoSpeedup
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/VOLT/pnp_0.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 153, 0); font-family: Palatino Linotype; font-size: 1.2rem;">
+            VOLT
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-grid-container" id="pnp-grid-1">
+      <div class="video-grid">
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/Normal_Speed/pnp_1.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 255, 255); font-family: Palatino Linotype; font-size: 1.2rem;">
+            Normal Speed
+          </div>
+        </div>
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/SAIL/pnp_1.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(160, 212, 164); font-family: Palatino Linotype; font-size: 1.2rem;">
+            SAIL
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/DemoSpeedup/pnp_1.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(141, 95, 211); font-family: Palatino Linotype; font-size: 1.2rem;">
+            DemoSpeedup
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/VOLT/pnp_1.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 153, 0); font-family: Palatino Linotype; font-size: 1.2rem;">
+            VOLT
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-grid-container" id="pnp-grid-2">
+      <div class="video-grid">
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/Normal_Speed/pnp_2.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 255, 255); font-family: Palatino Linotype; font-size: 1.2rem;">
+            Normal Speed
+          </div>
+        </div>
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/SAIL/pnp_2.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(160, 212, 164); font-family: Palatino Linotype; font-size: 1.2rem;">
+            SAIL
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/DemoSpeedup/pnp_2.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(141, 95, 211); font-family: Palatino Linotype; font-size: 1.2rem;">
+            DemoSpeedup
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/VOLT/pnp_2.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 153, 0); font-family: Palatino Linotype; font-size: 1.2rem;">
+            VOLT
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop video-section">
+    <h2 class="title is-2 has-text-centered">Push Cup</h2>
+    <div class="tabs is-toggle is-small video-tabs">
+      <ul>
+        <li class="is-active" data-target="push-grid-0"><a>Rollout 1</a></li>
+        <li data-target="push-grid-1"><a>Rollout 2</a></li>
+        <li data-target="push-grid-2"><a>Rollout 3</a></li>
+      </ul>
+    </div>
+
+    <div class="video-grid-container is-active" id="push-grid-0">
+      <div class="video-grid">
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/Normal_Speed/push_cup_0.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 255, 255); font-family: Palatino Linotype; font-size: 1.2rem;">
+            Normal Speed
+          </div>
+        </div>
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/SAIL/push_cup_0.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(160, 212, 164); font-family: Palatino Linotype; font-size: 1.2rem;">
+            SAIL
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/DemoSpeedup/push_cup_0.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(141, 95, 211); font-family: Palatino Linotype; font-size: 1.2rem;">
+            DemoSpeedup
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/VOLT/push_cup_0.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 153, 0); font-family: Palatino Linotype; font-size: 1.2rem;">
+            VOLT
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-grid-container" id="push-grid-1">
+      <div class="video-grid">
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/Normal_Speed/push_cup_1.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 255, 255); font-family: Palatino Linotype; font-size: 1.2rem;">
+            Normal Speed
+          </div>
+        </div>
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/SAIL/push_cup_1.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(160, 212, 164); font-family: Palatino Linotype; font-size: 1.2rem;">
+            SAIL
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/DemoSpeedup/push_cup_1.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(141, 95, 211); font-family: Palatino Linotype; font-size: 1.2rem;">
+            DemoSpeedup
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/VOLT/push_cup_1.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 153, 0); font-family: Palatino Linotype; font-size: 1.2rem;">
+            VOLT
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-grid-container" id="push-grid-2">
+      <div class="video-grid">
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/Normal_Speed/push_cup_2.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 255, 255); font-family: Palatino Linotype; font-size: 1.2rem;">
+            Normal Speed
+          </div>
+        </div>
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/SAIL/push_cup_2.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(160, 212, 164); font-family: Palatino Linotype; font-size: 1.2rem;">
+            SAIL
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/DemoSpeedup/push_cup_2.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(141, 95, 211); font-family: Palatino Linotype; font-size: 1.2rem;">
+            DemoSpeedup
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/VOLT/push_cup_2.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 153, 0); font-family: Palatino Linotype; font-size: 1.2rem;">
+            VOLT
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop video-section">
+    <h2 class="title is-2 has-text-centered">Tower Transfer</h2>
+    <div class="tabs is-toggle is-small video-tabs">
+      <ul>
+        <li class="is-active" data-target="tower-grid-0"><a>Rollout 1</a></li>
+        <li data-target="tower-grid-1"><a>Rollout 2</a></li>
+        <li data-target="tower-grid-2"><a>Rollout 3</a></li>
+      </ul>
+    </div>
+
+    <div class="video-grid-container is-active" id="tower-grid-0">
+      <div class="video-grid">
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/Normal_Speed/tower_transfer_0.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 255, 255); font-family: Palatino Linotype; font-size: 1.2rem;">
+            Normal Speed
+          </div>
+        </div>
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/SAIL/tower_transfer_0.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(160, 212, 164); font-family: Palatino Linotype; font-size: 1.2rem;">
+            SAIL
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/DemoSpeedup/tower_transfer_0.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(141, 95, 211); font-family: Palatino Linotype; font-size: 1.2rem;">
+            DemoSpeedup
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/VOLT/tower_transfer_0.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 153, 0); font-family: Palatino Linotype; font-size: 1.2rem;">
+            VOLT
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-grid-container" id="tower-grid-1">
+      <div class="video-grid">
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/Normal_Speed/tower_transfer_1.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 255, 255); font-family: Palatino Linotype; font-size: 1.2rem;">
+            Normal Speed
+          </div>
+        </div>
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/SAIL/tower_transfer_1.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(160, 212, 164); font-family: Palatino Linotype; font-size: 1.2rem;">
+            SAIL
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/DemoSpeedup/tower_transfer_1.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(141, 95, 211); font-family: Palatino Linotype; font-size: 1.2rem;">
+            DemoSpeedup
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/VOLT/tower_transfer_1.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 153, 0); font-family: Palatino Linotype; font-size: 1.2rem;">
+            VOLT
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-grid-container" id="tower-grid-2">
+      <div class="video-grid">
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/Normal_Speed/tower_transfer_2.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 255, 255); font-family: Palatino Linotype; font-size: 1.2rem;">
+            Normal Speed
+          </div>
+        </div>
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/SAIL/tower_transfer_2.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(160, 212, 164); font-family: Palatino Linotype; font-size: 1.2rem;">
+            SAIL
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/DemoSpeedup/tower_transfer_2.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(141, 95, 211); font-family: Palatino Linotype; font-size: 1.2rem;">
+            DemoSpeedup
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/VOLT/tower_transfer_2.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 153, 0); font-family: Palatino Linotype; font-size: 1.2rem;">
+            VOLT
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop video-section">
+    <h2 class="title is-2 has-text-centered">Plug Insertion</h2>
+    <div class="tabs is-toggle is-small video-tabs">
+      <ul>
+        <li class="is-active" data-target="plug-grid-0"><a>Rollout 1</a></li>
+        <li data-target="plug-grid-1"><a>Rollout 2</a></li>
+        <li data-target="plug-grid-2"><a>Rollout 3</a></li>
+      </ul>
+    </div>
+
+    <div class="video-grid-container is-active" id="plug-grid-0">
+      <div class="video-grid">
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/Normal_Speed/plug_0.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 255, 255); font-family: Palatino Linotype; font-size: 1.2rem;">
+            Normal Speed
+          </div>
+        </div>
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/SAIL/plug_0.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(160, 212, 164); font-family: Palatino Linotype; font-size: 1.2rem;">
+            SAIL
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/DemoSpeedup/plug_0.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(141, 95, 211); font-family: Palatino Linotype; font-size: 1.2rem;">
+            DemoSpeedup
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/VOLT/plug_0.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 153, 0); font-family: Palatino Linotype; font-size: 1.2rem;">
+            VOLT
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-grid-container" id="plug-grid-1">
+      <div class="video-grid">
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/Normal_Speed/plug_1.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 255, 255); font-family: Palatino Linotype; font-size: 1.2rem;">
+            Normal Speed
+          </div>
+        </div>
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/SAIL/plug_1.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(160, 212, 164); font-family: Palatino Linotype; font-size: 1.2rem;">
+            SAIL
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/DemoSpeedup/plug_1.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(141, 95, 211); font-family: Palatino Linotype; font-size: 1.2rem;">
+            DemoSpeedup
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/VOLT/plug_1.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 153, 0); font-family: Palatino Linotype; font-size: 1.2rem;">
+            VOLT
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-grid-container" id="plug-grid-2">
+      <div class="video-grid">
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/Normal_Speed/plug_2.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 255, 255); font-family: Palatino Linotype; font-size: 1.2rem;">
+            Normal Speed
+          </div>
+        </div>
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/SAIL/plug_2.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(160, 212, 164); font-family: Palatino Linotype; font-size: 1.2rem;">
+            SAIL
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/DemoSpeedup/plug_2.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(141, 95, 211); font-family: Palatino Linotype; font-size: 1.2rem;">
+            DemoSpeedup
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/VOLT/plug_2.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 153, 0); font-family: Palatino Linotype; font-size: 1.2rem;">
+            VOLT
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop video-section">
+    <h2 class="title is-2 has-text-centered">Table Sorting</h2>
+    <div class="tabs is-toggle is-small video-tabs">
+      <ul>
+        <li class="is-active" data-target="sorting-grid-0"><a>Rollout 1</a></li>
+        <li data-target="sorting-grid-1"><a>Rollout 2</a></li>
+        <li data-target="sorting-grid-2"><a>Rollout 3</a></li>
+      </ul>
+    </div>
+
+    <div class="video-grid-container is-active" id="sorting-grid-0">
+      <div class="video-grid">
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/Normal_Speed/table_sorting_0.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 255, 255); font-family: Palatino Linotype; font-size: 1.2rem;">
+            Normal Speed
+          </div>
+        </div>
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/SAIL/table_sorting_0.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(160, 212, 164); font-family: Palatino Linotype; font-size: 1.2rem;">
+            SAIL
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/DemoSpeedup/table_sorting_0.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(141, 95, 211); font-family: Palatino Linotype; font-size: 1.2rem;">
+            DemoSpeedup
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/VOLT/table_sorting_0.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 153, 0); font-family: Palatino Linotype; font-size: 1.2rem;">
+            VOLT
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-grid-container" id="sorting-grid-1">
+      <div class="video-grid">
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/Normal_Speed/table_sorting_1.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 255, 255); font-family: Palatino Linotype; font-size: 1.2rem;">
+            Normal Speed
+          </div>
+        </div>
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/SAIL/table_sorting_1.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(160, 212, 164); font-family: Palatino Linotype; font-size: 1.2rem;">
+            SAIL
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/DemoSpeedup/table_sorting_1.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(141, 95, 211); font-family: Palatino Linotype; font-size: 1.2rem;">
+            DemoSpeedup
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/VOLT/table_sorting_1.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 153, 0); font-family: Palatino Linotype; font-size: 1.2rem;">
+            VOLT
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-grid-container" id="sorting-grid-2">
+      <div class="video-grid">
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/Normal_Speed/table_sorting_2.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 255, 255); font-family: Palatino Linotype; font-size: 1.2rem;">
+            Normal Speed
+          </div>
+        </div>
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/SAIL/table_sorting_2.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(160, 212, 164); font-family: Palatino Linotype; font-size: 1.2rem;">
+            SAIL
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/DemoSpeedup/table_sorting_2.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(141, 95, 211); font-family: Palatino Linotype; font-size: 1.2rem;">
+            DemoSpeedup
+          </div>
+        </div>        
+        <div class="video-wrapper">
+          <video src="./static/assets/videos/VOLT/table_sorting_2.mp4" autoplay muted loop></video>
+          <div class="video-title" style="color: rgb(255, 153, 0); font-family: Palatino Linotype; font-size: 1.2rem;">
+            VOLT
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-2 has-text-centered">Experiment Results</h2>
+    <div class="content has-text-justified">
+      <p>
+        Our results suggest that <i>VOLT</i> significantly reduces the task completion time when compared to <i>Normal Speed</i> policies.
+        When compared to other methods, we find that <i>VOLT</i> consistently achieves the second largest speedup. Although, <i>SAIL</i> is the fastest, since
+        it assign the most <i>speed-up</i> labels, it also negatively impacts performance, as clearly shown in the <i>Pick and Place</i> and <i>Push Cup</i> tasks.
+        On the other hand, <i>DemoSpeedup</i> more frequently assigns <i>maintain-speed</i> labels, which results in slower policies. Overall, this results suggest
+        that <i>VOLT</i> is capable of accurately determining which segments of the task can be accelerated and the segments where robots require precision.
+      </p>
+    </div>
+    <div class="columns is-centered has-text-centered">
+      <img src="./static/assets/images/experiment.png" style="width: 95%;"></img>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-2 has-text-centered">Prompt</h2>
+    <div class="content has-text-justified">
+      <p>
+        Full prompt utilized to segment all the demonstrations in our manuscript.
+      </p>
+      <pre>
+        <code>
+VALID_SEGMENTS:
+  - "speed-up"
+  - "maintain-speed"
+
+OUTPUT_EXTRACTION_PATTERN: '```json\n(.*?)\n```'
+
+SYSTEM_PROMPT: |-
+  Your are a helpful assistant that generate labels for a given video of a robot performing a task.
+
+  Your goal is to help the robot to perform the task as fast as possible without causing 
+  it to fail by segmenting the video into different substaks.
+  You first need to analize the video and then localize all the substasks performed to complete 
+  the main task. For each substask you need to identify
+  its start and end timestamp, and classify the subtask into one of the valid segment_types: 
+  ${list2string:${VALID_SEGMENTS}}.
+  Your generated response must help the robot increase its task efficiency while maintaining 
+  precise and critical movements.
+
+  **Subtask Localization and Classification Guidelines:**
+    - The robot should speed up whenever possible, this refers to cases that not require 
+    delicate environment interactions.
+    - Maintain-speed only when is necessary for the robot to work as demonstrated, mainly substasks 
+    that require dexterity or precision.
+    - The robot is a physical system that cannot instantly change its speed, you need to allocated 
+    enough frames on slower segments when transitiong from between substasks
+      that do not share the same category to allow the robot to smoothly slow down and avoid jerky motions.
+    - Given direct grasping of an object the robot has enough force to securely hold it regardless of speed.
+    - Fast speed will often lead to unexpected motion of objects not directly grasped by the gripper.
+    - Default the events where the robot is actively avoiding obstacles without an exagerated motion, 
+    i.e., the robot barely clears the obstacle as precise.
+    - When the robot is done with the task and interacting with objects, the robot must quickly reach 
+    is final position.
+
+  **Generation Rules:**
+    - A consise reasoning of which label is appropiate for each segments must be provided 
+    prior to making a decision.
+    - The list of segments must cover the entire video.
+    - Only leave one frame gaps betweeen segments.
+    - All robot alignment substaks must be categorized as precise.
+
+  The following is a non-exhaustive list of common substasks:
+    - Moving towards objects
+    - Transporting objects
+    - Avoiding obstacles
+    - Grasping/Placing
+    - Insertion/Retrieval
+    - Pushing
+    - Pouring
+    - Wiping
+  This is not a complete list of possible subtask, if any event not included in this list is 
+  localized be sure to describe them accordingly.
+
+  The generated response must use the 'mm:ss.ff' format for all timestamps. Final output format:
+  ${OUTPUT_FORMAT}
+
+OUTPUT_FORMAT: |-
+  ```json
+  [
+      {
+          "start_time": "mm:ss.ff",
+          "end_time": "mm:ss.ff",
+          "subtask": "concise substask description",
+          "reasoning": "reasoning of which segment_type should be used",
+          "segment_type": "${list2string:${VALID_SEGMENTS}, '/'}"
+      },
+      ...
+  ]
+  ```
+
+USER_PROMPT: |
+  Given the current task description: <|video-description|>, help the robot complete the task faster 
+  than demonstrated in the video (00:00.00 - <|video-length|>)
+        </code>
+      </pre>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-2 has-text-centered">Sampling Hyperparameters</h2>
+    
+    <div class="content has-text-justified">
+      <p>
+        Inference hyperparameters used in our experiments.
+      </p>
+    </div>
+
+    <div class="table-container">
+      <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+        <thead>
+          <tr>
+            <th>Hyperparameter</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Seed</strong></td>
+            <td>3407</td>
+          </tr>
+          <tr>
+            <td><strong>Top P</strong></td>
+            <td>0.8</td>
+          </tr>
+          <tr>
+            <td><strong>Top K</strong></td>
+            <td>20</td>
+          </tr>
+          <tr>
+            <td><strong>Temperature</strong></td>
+            <td>0.4</td>
+          </tr>
+          <tr>
+            <td><strong>Repetition Penalty</strong></td>
+            <td>1.0</td>
+          </tr>
+          <tr>
+            <td><strong>Presence Penalty</strong></td>
+            <td>0.5</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+      href="">
+     <i class="fas fa-file-pdf"></i>
+   </a>
+   <a class="icon-link" href="" class="external-link" disabled>
+     <i class="fab fa-github"></i>
+   </a>
+      <p>Page template borrowed from  <a href="https://nerfies.github.io"><span class="dnerf">Nerfies</span></a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  document.querySelectorAll(".video-section").forEach(section => {
+    const tabs = section.querySelectorAll(".video-tabs li");
+
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        const targetId = tab.dataset.target;
+
+        // Deactivate all tabs
+        tabs.forEach(t => t.classList.remove("is-active"));
+        tab.classList.add("is-active");
+
+        // Hide all grids & pause + reset their videos
+        section.querySelectorAll(".video-grid-container").forEach(grid => {
+          grid.classList.remove("is-active");
+          grid.querySelectorAll("video").forEach(v => {
+            v.pause();
+            v.currentTime = 0;
+          });
+        });
+
+        // Show target grid
+        const targetGrid = section.querySelector(`#${targetId}`);
+        if (targetGrid) {
+          targetGrid.classList.add("is-active");
+
+          // Get all videos in this grid
+          const videos = Array.from(targetGrid.querySelectorAll("video"));
+
+          // Pause all first, reset, then play together
+          videos.forEach(v => {
+            v.pause();
+            v.currentTime = 0;
+          });
+
+          // Synchronize start using requestAnimationFrame
+          requestAnimationFrame(() => {
+            videos.forEach(v => v.play());
+          });
+        }
+
+      });
+    });
+  });
+
+});
+</script>
+
+
+
+</body>
+</html>
