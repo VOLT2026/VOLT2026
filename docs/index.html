@@ -243,17 +243,16 @@
           <h2 class="title is-3">Abstract</h2>
           <div class="content has-text-justified">
             <p>
-              The time it takes for humans to demonstrate a task is often greater than the amount of time a robot needs to complete that same task.
-              Consider teaching a robot arm to pick up a cup: while the robot is capable of rapidly moving to the cup's location, a human may teach more slowly as they kinesthetically guide the arm or navigate a teleoperation interface.
-              Instead of matching the speed of the human's demonstration, industry and other applications seek robots that imitate the task as quickly as possible.
-              Accordingly, in this work we explore a variety of hypothesis for learning <i>faster-than-demonstration</i> policies.
-              Through our experiments, we find that the most effective approach is for the robot to <i>downsample</i> the recorded demonstrations, and then train its policy based on this accelerated dataset.
-              However, blindly downsampling the entire trajectory is problematic.
-              There are parts of the motion that the robot can speed-up (e.g., moving to the cup), but there are also segments that require slow and precise motion (e.g., grasping that cup).
-              To determine when and when not to accelerate we introduce a vision and language trajectory segmentation algorithm, VOLT.
-              VOLT reasons over video demonstrations to mark the frames where precise motion is required: we then downsample the remaining portions of the trajectory, and provide the reformatted data to standard imitation learning methods (e.g., diffusion policies).
-              When compared to state-of-the-art alternatives, we find that VOLT speeds-up the learned task without sacrificing performance.
-              The key to this improvement is segmentation accuracy --- the baselines often mislabel when the robot can or cannot downsample, leading to overly conservative or incorrect policies.
+              Humans often take longer to demonstrate a task than a robot would need to execute it. Rather than learning to replicate the demonstration at the same pace, 
+              many industrial and practical applications require robots to perform tasks as quickly as possible. In this paper, we investigate several hypotheses for learning 
+              policies that operate \textit{faster-than-demonstrations}. Our experiments show that the most effective strategy is to downsample recorded demonstrations and 
+              train the robot's policy on this accelerated data. However, uniformly downsampling an entire trajectory can be problematic. Some parts of a task can be safely 
+              sped up (e.g., unconstrained motion), while others demand slower, more precise motion (e.g., object interactions or fine manipulation). To address this challenge,
+              we introduce VOLT, a vision-and-language trajectory segmentation method that reasons over video demonstrations, and leverages contextual cues to determine when 
+              acceleration is appropriate and when careful precision is required. VOLT identifies segments where slow, deliberate motion is necessary, then selectively downsamples
+              the remaining segments. The resulting reformatted trajectories can be used with standard imitation learning approaches, such as diffusion policies. Our results highlight 
+              that segmentation quality is critical---baseline methods often misidentify when acceleration is possible, leading to overly cautious or unreliable policies. 
+              Compared to state-of-the-art alternatives, VOLT allows robots to execute tasks faster while maintaining strong performance.
             </p>
           </div>
         </div>
@@ -286,8 +285,8 @@
     <div class="content has-text-justified">
       <p>
         We compare <i>VOLT</i> against state-of-the-art imitation learning methods designed to accelerate policy execution. We evaluate each approach in a real-world setting using
-        a Franka Emika robot arm in a tabletop setup across 4 manipulation tasks. We focus on comparing both the performance and speedup magnitude over a <i>Normal Speed</i> policy
-        trained directly on the human's demonstrations. Across each task we randomize the position of the manipulated objects, and maintain the target object location fixed.
+        a Franka Emika robot arm in a tabletop setup across 5 manipulation tasks. We focus on comparing both the performance and speedup magnitude over a <i>Normal Speed</i> policy
+        trained directly on the human's demonstrations. For each task we randomize the position of the manipulated objects, and maintain the target object location fixed.
       </p>
   </div>
     <div class="columns is-centered has-text-centered">
